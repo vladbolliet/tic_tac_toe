@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-This is a simple command-line Tic Tac Toe game implemented in C. The game allows a player to play against a bot.
+This is a simple command-line Tic Tac Toe game implemented in C. The game allows a player to play against a bot which makes random moves.
 
 ## Files
 
