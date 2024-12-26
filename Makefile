@@ -1,19 +1,19 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
-TARGET = tic_tac_toe
+all: tic_tac_toe
 
-SRCS = main.c ui.c
-OBJS = $(SRCS:.c=.o)
+tic_tac_toe: main.o ui.o game_end.o check_move.o
+	gcc -o tic_tac_toe main.o ui.o game_end.o check_move.o
 
-all: $(TARGET)
+main.o: main.c
+	gcc -c main.c -o main.o
 
-$(TARGET): $(OBJS)
-    $(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+ui.o: ui.c
+	gcc -c ui.c -o ui.o
 
-%.o: %.c
-    $(CC) $(CFLAGS) -c $< -o $@
+game_end.o: game_end.c
+	gcc -c game_end.c -o game_end.o
+
+check_move.o: check_move.c
+	gcc -c check_move.c -o check_move.o
 
 clean:
-    rm -f $(OBJS) $(TARGET)
-
-.PHONY: all clean
+	rm -f *.o tic_tac_toe
