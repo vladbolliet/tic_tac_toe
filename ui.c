@@ -59,6 +59,21 @@ void ui(char board[3][3]) {
 
         print_board(board);
 
+        // check if the game has ended
+
+        if(game_end(board, player, bot) == player){ 
+            printf("Player 1 (%c) wins!\n", player);
+            break;
+         }
+        else if(game_end(board, player, bot) == bot){ 
+            printf("Bot (%c) wins!\n", bot);
+            break;
+        }
+        else if(game_end(board, player, bot) == 'd'){ 
+            printf("It's a draw!\n");
+            break;
+        }
+
         //bot's turn
 
         bot_goes_first:
