@@ -17,6 +17,7 @@ void ui(char board[3][3]) {
     int is_first_move = TRUE;
     initialize_players(&player, &bot);
     srand(time(NULL)); //seed for random number generator
+    int game_mode = choose_game_mode(); // 1 for player vs player, 2 for player vs bot (random), 3 for player vs bot (impossible)
     print_board(board);
     while(1){
 
@@ -98,16 +99,23 @@ void ui(char board[3][3]) {
 
         // bot's turn
 
-        while(1){
-            row = abs(rand() % 3); //abs to avoid negative values
-            col = abs(rand() % 3);
-            if(move_is_valid(board, row, col)){
-                printf("\nBot (%c) played at %d %d\n\n", bot, row + 1, col + 1);
-                board[row][col] = bot;
-                is_first_move = FALSE;
-                break;
-            }
-        } //end of bot's turn
+        if(game_mode == 2){
+            while(1){
+                row = abs(rand() % 3); //abs to avoid negative values
+                col = abs(rand() % 3);
+                if(move_is_valid(board, row, col)){
+                    printf("\nBot (%c) played at %d %d\n\n", bot, row + 1, col + 1);
+                    board[row][col] = bot;
+                    is_first_move = FALSE;
+                    break;
+                }
+            } //end of bot's turn
+        }
+
+        else if(game_mode == 3){
+            smart_bot_move(board, bot, player);
+            is_first_move = FALSE;
+        }
 
         print_board(board);
 
@@ -171,4 +179,20 @@ void print_board(char board[3][3]) {
 void welcome_message() {
     printf("\nWelcome to Tic Tac Toe!\n");
     printf("Unconventional rule: X goes first\n\n");
+}
+
+int choose_game_mode() {
+    int game_mode;
+    printf("Choose game mode:\n");
+    //printf("(1) Player vs Player\n");
+    printf("(2) Player vs Bot (Random)\n");
+    printf("(3) Player vs Bot (Impossible)\n\n");
+    printf("Enter your choice: ");
+    scanf("%d", &game_mode);
+    printf("\n");
+    if(game_mode < 1 || game_mode > 3) {
+        printf("Invalid choice. Please try again.\n");
+        return choose_game_mode();
+    }
+    return game_mode;
 }
